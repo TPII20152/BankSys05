@@ -11,9 +11,11 @@ import static org.junit.Assert.*;
  */
 public class TaxAccountTest {
 
+    TaxAccount tAccount;
+
     @Before
     public void setUp() throws Exception {
-
+        tAccount = new TaxAccount("123321");
     }
 
     @After
@@ -23,21 +25,36 @@ public class TaxAccountTest {
 
     @Test
     public void testDebit() throws Exception {
-
+        double valueCredit = 120;
+        tAccount.credit(valueCredit);
+        double oldBalance = tAccount.getBalance();
+        double valueDebit = 50;
+        tAccount.debit(50);
+        double newBalance = tAccount.getBalance();
+        assertEquals(valueDebit*1.001,oldBalance-newBalance,0);
     }
 
     @Test
     public void testCredit() throws Exception {
-
+        double value = 300;
+        double oldBalance = tAccount.getBalance();
+        tAccount.credit(value);
+        double newBalance = tAccount.getBalance();
+        assertEquals(value,newBalance-oldBalance,0);
     }
 
     @Test
     public void testGetNumber() throws Exception {
+        assertEquals("123321",tAccount.getNumber());
 
     }
 
     @Test
     public void testGetBalance() throws Exception {
-
+        double oldBalance = tAccount.getBalance();
+        double value = 30;
+        tAccount.credit(value);
+        double newBalance = tAccount.getBalance();
+        assertEquals(value,newBalance-oldBalance,0);
     }
 }
