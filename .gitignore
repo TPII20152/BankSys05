@@ -1,6 +1,5 @@
+bin
 .idea
 .classpath
 .project
 BankSys.iml
-*.class
-bin

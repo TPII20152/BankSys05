@@ -1,5 +1,7 @@
 package banksys.account;
 
+import banksys.account.exception.InsufficientFundsException;
+import banksys.account.exception.NegativeAmountException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,5 +73,22 @@ public class SpecialAccountTest {
         specialAccount.credit(value);
         double newBalance = specialAccount.getBalance();
         assertEquals(value,newBalance-oldBalance,0);
+    }
+
+    @Test(expected = NegativeAmountException.class)
+    public void testNegativeDebit() throws Exception {
+        specialAccount.credit(100);
+        specialAccount.debit(-10);
+    }
+
+    @Test(expected = InsufficientFundsException.class)
+    public void testInsufficientDebit() throws Exception {
+        specialAccount.credit(100);
+        specialAccount.debit(101);
+    }
+
+    @Test(expected = NegativeAmountException.class)
+    public void testNegativeCredit() throws Exception {
+        specialAccount.credit(-100);
     }
 }

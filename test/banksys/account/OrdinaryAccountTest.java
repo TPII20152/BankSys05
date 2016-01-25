@@ -1,5 +1,7 @@
 package banksys.account;
 
+import banksys.account.exception.InsufficientFundsException;
+import banksys.account.exception.NegativeAmountException;
 import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import junit.framework.Assert;
 import org.junit.After;
@@ -58,6 +60,23 @@ public class OrdinaryAccountTest {
         oAccount.debit(50);
         double newBalance = oAccount.getBalance();
         assertEquals(valueDebit,oldBalance-newBalance,0);
+    }
+
+    @Test(expected = NegativeAmountException.class)
+    public void testNegativeDebit() throws Exception {
+        oAccount.credit(100);
+        oAccount.debit(-10);
+    }
+
+    @Test(expected = InsufficientFundsException.class)
+    public void testInsufficientDebit() throws Exception {
+        oAccount.credit(100);
+        oAccount.debit(101);
+    }
+
+    @Test(expected = NegativeAmountException.class)
+    public void testNegativeCredit() throws Exception {
+        oAccount.credit(-100);
     }
 
 }
