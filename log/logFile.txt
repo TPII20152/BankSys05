@@ -1,0 +1,6 @@
+[28-01-2016 18:23:42] - Account number 321 created.
+[28-01-2016 18:23:48] - Account number 567 created.
+[28-01-2016 18:23:59] - 900.0 credited - account number 567
+[28-01-2016 18:24:07] - 466.0 credited - account number 321
+[28-01-2016 18:24:13] - Balance consulted - account number 321
+[28-01-2016 18:24:19] - Balance consulted - account number 567
