@@ -91,4 +91,10 @@ public class SpecialAccountTest {
     public void testNegativeCredit() throws Exception {
         specialAccount.credit(-100);
     }
+
+    @Test(expected = NegativeAmountException.class)
+    public void testNegativeBonus() throws Exception {
+        specialAccount.credit(-10); //Exception launched here -- warning
+        specialAccount.earnBonus();
+    }
 }
