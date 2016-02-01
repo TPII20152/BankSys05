@@ -1,16 +1,16 @@
 package banksys.atm;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
 import banksys.control.AtmWindowController;
 
-public class AtmWindow {
+public class AtmWindow extends JFrame {
 
-	private JFrame frame;
+	private static final long serialVersionUID = 3234267774933565151L;
+	
 	private String sNumber;
 	public static JMenuItem creditar;		
 	public static JMenuItem debitar;
@@ -33,16 +33,15 @@ public class AtmWindow {
 	 * Inicializando o Frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.getContentPane().setBackground(UIManager.getColor("Button.darkShadow"));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setResizable(false);
+		setBounds(100, 100, 450, 300);
+		getContentPane().setBackground(UIManager.getColor("Button.darkShadow"));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setResizable(false);
 		
 		atmWindowController = new AtmWindowController(sNumber);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 		
 		creditar = new JMenuItem("Creditar");
 		creditar.addActionListener(atmWindowController);
@@ -68,7 +67,13 @@ public class AtmWindow {
 		bonus.addActionListener(atmWindowController);
 		menuBar.add(bonus);
 		
-		frame.setVisible(true);
+		setVisible(true);
+	}
+	
+	@Override
+	public void dispose() {
+		MainWindow.SetVisible(true);
+		super.dispose();
 	}
 
 }

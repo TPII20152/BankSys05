@@ -15,7 +15,7 @@ import org.omg.CORBA.DynAnyPackage.InvalidValue;
 
 public class MainWindow {
 
-	private JFrame frame;
+	private static JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -24,8 +24,8 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
+					new MainWindow();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -96,6 +96,10 @@ public class MainWindow {
 		atendimentoCliente.setBackground(Color.WHITE);
 		atendimentoCliente.setForeground(Color.GRAY);
 		frame.getContentPane().add(atendimentoCliente);
+	}
+
+	public static void SetVisible(boolean b) {
+		frame.setVisible(b);
 	}
 
 }

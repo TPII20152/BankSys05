@@ -8,9 +8,10 @@ import javax.swing.UIManager;
 
 import banksys.control.ManagerWindowController;
 
-public class ManagerWindow {
+public class ManagerWindow extends JFrame {
 
-	private JFrame frame;
+	private static final long serialVersionUID = -8484993553270017280L;
+	
 	private ManagerWindowController windowController;
 	public static JMenuItem comum;
 	public static JMenuItem especial;
@@ -18,9 +19,6 @@ public class ManagerWindow {
 	public static JMenuItem imposto;
 	public static JMenuItem removerConta;
 
-	/**
-	 * Criando a aplicação.
-	 */
 	public ManagerWindow() {
 		initialize();
 	}
@@ -29,15 +27,14 @@ public class ManagerWindow {
 	 * Inicializando o Frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.getContentPane().setBackground(UIManager.getColor("Button.darkShadow"));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setResizable(false);
+		setBounds(100, 100, 450, 300);
+		getContentPane().setBackground(UIManager.getColor("Button.darkShadow"));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setResizable(false);
 		windowController = new ManagerWindowController();
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 		
 		JMenu criarConta = new JMenu("Criar Conta");
 		menuBar.add(criarConta);
@@ -61,8 +58,13 @@ public class ManagerWindow {
 		menuBar.add(removerConta);
 		
 		
-		/*frame.getContentPane().setLayout(new GridLayout(qtdContas, 2));*/
-		frame.setVisible(true);
+		setVisible(true);
+	}
+	
+	@Override
+	public void dispose() {
+		MainWindow.SetVisible(true);
+		super.dispose();
 	}
 
 }
