@@ -16,4 +16,6 @@ public interface IAccountRepository {
 	public AbstractAccount[] list();
 
 	public int numberOfAccounts();
+	
+	public void update(AbstractAccount account) throws AccountNotFoundException;
 }

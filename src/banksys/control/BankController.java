@@ -23,6 +23,9 @@ public class BankController {
 
 	public void addAccount(AbstractAccount account) throws BankTransactionException {
 		try {
+			if(account == null || account.getNumber() == null || account.getNumber().isEmpty())
+				throw new BankTransactionException("Account invalid.");
+			
 			this.repository.create(account);
 		} catch (AccountCreationException ace) {
 			Logger.write("Account number "+account.getNumber()+" not created. ");
@@ -51,9 +54,14 @@ public class BankController {
 		}
 		try {
 			account.credit(amount);
+			this.repository.update(account);
+			
 		} catch (NegativeAmountException nae) {
 			Logger.write("Failed attempt to credit negative value - account number. "+number+"Value: "+amount);
 			throw new BankTransactionException(nae);
+		} catch (AccountNotFoundException anfe) {
+			Logger.write("Account number "+number+" not found. ");
+			throw new BankTransactionException(anfe);
 		}
 		Logger.write(amount+" credited - account number "+account.getNumber());
 	}
@@ -68,12 +76,17 @@ public class BankController {
 		}
 		try {
 			account.debit(amount);
+			this.repository.update(account);
+			
 		} catch (InsufficientFundsException ife) {
 			Logger.write("Failed attempt to debit (Insufficient Funds). Account number. "+number+" Value: "+amount);
 			throw new BankTransactionException(ife);
 		} catch (NegativeAmountException nae) {
 			Logger.write("Failed attempt to debit negative value - account number. "+number+" Value: "+amount);
 			throw new BankTransactionException(nae);
+		} catch (AccountNotFoundException anfe) {
+			Logger.write("Account number "+number+" not found. ");
+			throw new BankTransactionException(anfe);
 		}
 		Logger.write(amount+" debited - account number "+account.getNumber());
 	}
@@ -91,6 +104,8 @@ public class BankController {
 	}
 
 	public void doTransfer(String fromNumber, String toNumber, double amount) throws BankTransactionException {
+		
+		
 		AbstractAccount fromAccount;
 		try {
 			fromAccount = this.repository.retrieve(fromNumber);
@@ -107,15 +122,24 @@ public class BankController {
 			throw new BankTransactionException(anfe);
 		}
 
+		if(fromNumber.equals(toNumber)) throw new BankTransactionException("Self transter is not possible.");
+
 		try {
 			fromAccount.debit(amount);
 			toAccount.credit(amount);
+			
+			this.repository.update(fromAccount);
+			this.repository.update(toAccount);
+			
 		} catch (InsufficientFundsException sie) {
 			Logger.write("Failed attempt to transfer (Insufficient Funds). Account number. "+fromNumber+" Value: "+amount);
 			throw new BankTransactionException(sie);
 		} catch (NegativeAmountException nae) {
 			Logger.write("Failed attempt to transfer (Negative Value). Account number. "+fromNumber+" Value: "+amount);
 			throw new BankTransactionException(nae);
+		} catch (AccountNotFoundException anfe) {
+			Logger.write("Account number not found. ");
+			throw new BankTransactionException(anfe);
 		}
 	}
 
@@ -131,6 +155,13 @@ public class BankController {
 		if (auxAccount instanceof SavingsAccount) {
 			((SavingsAccount) auxAccount).earnInterest();
 			Logger.write("Interest credited - Account number: "+auxAccount.getNumber());
+			
+			try{
+				this.repository.update(auxAccount);
+			} catch (AccountNotFoundException anfe) {
+				Logger.write("Account number "+number+" not found. ");
+				throw new BankTransactionException(anfe);
+			}
 		} else {
 			Logger.write("Failed attempt to get interest - Account number: "+auxAccount.getNumber() + "is not a SavingsAccount");
 			throw new IncompatibleAccountException(number);
@@ -149,6 +180,13 @@ public class BankController {
 		if (auxAccount instanceof SpecialAccount) {
 			((SpecialAccount) auxAccount).earnBonus();
 			Logger.write("Bonus credited - Account number: "+auxAccount.getNumber());
+			
+			try{
+				this.repository.update(auxAccount);
+			} catch (AccountNotFoundException anfe) {
+				Logger.write("Account number "+number+" not found. ");
+				throw new BankTransactionException(anfe);
+			}
 		} else {
 			Logger.write("Failed attempt to get bonus - Account number: "+auxAccount.getNumber() + "is not a BonusAccount");
 			throw new IncompatibleAccountException(number);

@@ -30,4 +30,14 @@ public abstract class AbstractAccount {
 	public double getBalance() {
 		return balance;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(!(obj instanceof AbstractAccount)) return false;
+		
+		AbstractAccount other = (AbstractAccount) obj;
+		
+		return number.equals(other.getNumber());
+	}
 }

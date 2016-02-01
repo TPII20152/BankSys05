@@ -99,6 +99,25 @@ public class AccountFile implements IAccountRepository {
 		List<AbstractAccount> list = readFile();
 		return list.size();
 	}
+
+	@Override
+	public void update(AbstractAccount newAcc) throws AccountNotFoundException {
+		List<AbstractAccount> list = readFile();
+		
+		AbstractAccount old = rapidSearch(newAcc.getNumber(), list);
+		
+		if(old == null)
+			throw new AccountNotFoundException("OrdinaryAccount not found!", newAcc.getNumber());
+		
+		list.remove(old);
+		list.add(newAcc);
+		
+		try {
+			saveFile(list);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private AbstractAccount rapidSearch(String number, List<AbstractAccount> list) {
 		for (AbstractAccount account : list) {
@@ -124,5 +143,6 @@ public class AccountFile implements IAccountRepository {
 		XStream xstream = new XStream();
 		xstream.toXML(list, new FileOutputStream(file));
 	}
+
 
 }
