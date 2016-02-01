@@ -41,11 +41,11 @@ public class AtmWindowController implements ActionListener{
 					if(value == 0d) throw new InvalidValue();
 					
 					bankController.doCredit(accNumber, value);
-					JOptionPane.showMessageDialog(null, "Débito realizado com sucesso.", "BankSys - Crédito", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Crédito realizado com sucesso.", "BankSys - Crédito", JOptionPane.INFORMATION_MESSAGE);
 				} catch (BankTransactionException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "BankSys - Crédito", JOptionPane.ERROR_MESSAGE);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Débito não realizado.", "BankSys - Crédito", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Crédito não realizado.", "BankSys - Crédito", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}else
