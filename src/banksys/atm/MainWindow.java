@@ -8,7 +8,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
 
 public class MainWindow {
 
@@ -66,8 +69,28 @@ public class MainWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new AtmWindow();
-				frame.setVisible(false);
+				String sNumber = JOptionPane.showInputDialog(null, "Digite o número da conta.", "BankSys - Atendimento", JOptionPane
+						.INFORMATION_MESSAGE);
+				
+				if(sNumber != null && !sNumber.isEmpty()){
+					
+					sNumber = sNumber.trim();
+					Integer number;
+					
+					try{
+						number = Integer.parseInt(sNumber);
+						
+						if(number == 0){
+							throw new InvalidValue();
+						}
+						new AtmWindow(sNumber);
+						frame.setVisible(false);
+						
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "Número Inválido", "BankSys - Atendimento", JOptionPane.INFORMATION_MESSAGE);
+					}
+
+				}
 			}
 		});
 		atendimentoCliente.setBackground(Color.WHITE);

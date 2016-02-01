@@ -6,17 +6,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
-import banksys.control.WindowController;
+import banksys.control.ManagerWindowController;
 
 public class ManagerWindow {
 
 	private JFrame frame;
-	private WindowController windowController;
+	private ManagerWindowController windowController;
 	public static JMenuItem comum;
 	public static JMenuItem especial;
 	public static JMenuItem poupanca;
 	public static JMenuItem imposto;
-	public static JMenu removerConta;
+	public static JMenuItem removerConta;
 
 	/**
 	 * Criando a aplicação.
@@ -34,7 +34,7 @@ public class ManagerWindow {
 		frame.getContentPane().setBackground(UIManager.getColor("Button.darkShadow"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setResizable(false);
-		windowController = new WindowController();
+		windowController = new ManagerWindowController();
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -56,7 +56,8 @@ public class ManagerWindow {
 		criarConta.add(imposto);
 		
 		
-		removerConta = new JMenu("Remover Conta");
+		removerConta = new JMenuItem("Remover Conta");
+		removerConta.addActionListener(windowController);
 		menuBar.add(removerConta);
 		
 		

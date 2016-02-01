@@ -3,16 +3,29 @@ package banksys.atm;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.UIManager;
+
+import banksys.control.AtmWindowController;
 
 public class AtmWindow {
 
 	private JFrame frame;
+	private String sNumber;
+	public static JMenuItem creditar;		
+	public static JMenuItem debitar;
+	public static JMenuItem transferir;
+	public static JMenuItem saldo;
+	public static JMenuItem juros;
+	public static JMenuItem bonus;
+	
+	private AtmWindowController atmWindowController;
 
 	/**
 	 * Criando a Aplicação.
 	 */
-	public AtmWindow() {
+	public AtmWindow(String sNumber) {
+		this.sNumber = sNumber;
 		initialize();
 	}
 
@@ -26,25 +39,33 @@ public class AtmWindow {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setResizable(false);
 		
+		atmWindowController = new AtmWindowController(sNumber);
+		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu creditar = new JMenu("Creditar");
+		creditar = new JMenuItem("Creditar");
+		creditar.addActionListener(atmWindowController);
 		menuBar.add(creditar);
 				
-		JMenu debitar = new JMenu("Debitar");
+		debitar = new JMenuItem("Debitar");
+		debitar.addActionListener(atmWindowController);
 		menuBar.add(debitar);
 		
-		JMenu transferir = new JMenu("Transferência");
+		transferir = new JMenuItem("Transferência");
+		transferir.addActionListener(atmWindowController);
 		menuBar.add(transferir);
 		
-		JMenu saldo = new JMenu("Saldo");
+		saldo = new JMenuItem("Saldo");
+		saldo.addActionListener(atmWindowController);
 		menuBar.add(saldo);
 		
-		JMenu juros = new JMenu("Juros");
+		juros = new JMenuItem("Juros");
+		juros.addActionListener(atmWindowController);
 		menuBar.add(juros);
 		
-		JMenu bonus = new JMenu("Bonus");
+		bonus = new JMenuItem("Bonus");
+		bonus.addActionListener(atmWindowController);
 		menuBar.add(bonus);
 		
 		frame.setVisible(true);
