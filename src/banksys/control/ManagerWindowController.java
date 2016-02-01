@@ -14,9 +14,10 @@ import banksys.account.SavingsAccount;
 import banksys.account.SpecialAccount;
 import banksys.account.TaxAccount;
 import banksys.atm.ManagerWindow;
+import banksys.control.exception.BankTransactionException;
 import banksys.persistence.AccountFile;
 
-public class WindowController implements ActionListener{
+public class ManagerWindowController implements ActionListener{
 	private BankController bankController;
 		
 	@Override
@@ -24,11 +25,32 @@ public class WindowController implements ActionListener{
 		try {
 			bankController = new BankController(new AccountFile());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		if(ManagerWindow.removerConta.equals(e.getSource())){
+			String sNumber = JOptionPane.showInputDialog(null, "Digite o número da conta.", "BankSys - Remover Conta", JOptionPane
+					.INFORMATION_MESSAGE);
 			
+			if(sNumber != null && !sNumber.isEmpty()){
+				
+				sNumber = sNumber.trim();
+				Integer number;
+				
+				try{
+					number = Integer.parseInt(sNumber);
+					
+					if(number == 0){
+						throw new InvalidValue();
+					}
+					
+					bankController.removeAccount(sNumber);
+					JOptionPane.showMessageDialog(null, "Conta removida com sucesso!", "BankSys - Remover Conta",JOptionPane.INFORMATION_MESSAGE);
+				} catch(BankTransactionException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "BankSys - Remover Conta", JOptionPane.INFORMATION_MESSAGE);
+				} catch(Exception ex){
+					JOptionPane.showMessageDialog(null, "Número Inválido", "BankSys - Remover Conta", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
 		} else {
 			
 			String sNumber = JOptionPane.showInputDialog(null, "Digite o número da conta.", "BankSys - Criar Conta", JOptionPane
@@ -60,7 +82,9 @@ public class WindowController implements ActionListener{
 					}
 					
 					bankController.addAccount(acc);
-					
+					JOptionPane.showMessageDialog(null, "Conta criada com sucesso!", "BankSys - Criar Conta",JOptionPane.INFORMATION_MESSAGE);
+				} catch(BankTransactionException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "BankSys - Criar Conta", JOptionPane.INFORMATION_MESSAGE);
 				} catch(Exception ex){
 					JOptionPane.showMessageDialog(null, "Conta não criada", "BankSys - Criar Conta", JOptionPane.INFORMATION_MESSAGE);
 				}
