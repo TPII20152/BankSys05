@@ -30,7 +30,7 @@ public class OrdinaryAccountTest {
 
     @Test
     public void testGetNumber() throws Exception {
-        assertEquals("192837",oAccount.getNumber());
+        assertEquals("19283",oAccount.getNumber());
     }
 
     @Test
