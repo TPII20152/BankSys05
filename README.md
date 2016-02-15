@@ -42,3 +42,5 @@ $ git merge <work_branch>
 
 **Step 6 Pushing**
 $ git push origin master
+
+teste
